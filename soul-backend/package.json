@@ -1,24 +1,20 @@
 {
   "name": "soul-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "main": "server.js",
+  "type": "module",   
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
-    "@supabase/supabase-js": "^2.56.1",
-    "axios": "^1.11.0",
+    "axios": "^1.7.9",
     "cors": "^2.8.5",
-    "dotenv": "^17.2.1",
-    "express": "^5.1.0",
-    "express-rate-limit": "^8.0.1",
-    "helmet": "^8.1.0",
-    "morgan": "^1.10.1"
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "express-rate-limit": "^7.3.2",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0",
+    "@supabase/supabase-js": "^2.44.4"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"

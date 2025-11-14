@@ -230,7 +230,7 @@ const LoginScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1A201E', // Dark forest green background
+    backgroundColor: '#0c0d0dff', // Dark forest green background
   },
   safeArea: {
     flex: 1,
@@ -324,7 +324,7 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   loginButtonText: {
-    color: '#1A201E', // Dark green text
+    color: '#dee7e4ff', // Dark green text
     fontSize: 18,
     fontWeight: '600',
   },

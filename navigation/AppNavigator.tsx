@@ -12,7 +12,7 @@ import RequestScreen from '../screens/settings/RequestScreen';
 const RootStack = createNativeStackNavigator();
 
 const AppNavigator = () => {
-  const isAuthenticated = true;
+  const isAuthenticated = false;
 
   // ✅ Custom theme with proper font configuration
   const CustomTheme = {

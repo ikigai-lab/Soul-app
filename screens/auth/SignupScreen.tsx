@@ -247,7 +247,7 @@ const SignupScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1A1C1B', // Dark grey-black background
+    backgroundColor: '#101111ff', // Dark grey-black background
   },
   safeArea: {
     flex: 1,

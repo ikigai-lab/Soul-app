@@ -41,36 +41,51 @@ const SignupScreen: React.FC = () => {
     return password.length >= 8;
   };
 
+  const validateUserId = (userId: string) => {
+  // Only letters, numbers, underscore, hyphen
+  const userIdRegex = /^[a-zA-Z0-9_-]{3,20}$/;
+  return userIdRegex.test(userId);
+};
+
   const handleSignup = async () => {
-    setErrors({});
+  setErrors({});
 
-    const newErrors: { [key: string]: string } = {};
-    if (!name.trim()) newErrors.name = 'Name is required';
-    if (!userId.trim()) newErrors.userId = 'UserID is required';
-    if (!password.trim()) {
-      newErrors.password = 'Password is required';
-    } else if (!validatePassword(password)) {
-      newErrors.password = 'Min 8 characters';
-    }
+  const newErrors: { [key: string]: string } = {};
+  
+  // Validate userId
+  if (!userId.trim()) {
+    newErrors.userId = 'UserID is required';
+  } else if (!validateUserId(userId)) {
+    newErrors.userId = '3-20 chars: letters, numbers, _ or -';
+  }
+  
+  // Validate email (ADD THIS)
+  if (!email.trim()) {
+    newErrors.email = 'Email is required';
+  } else if (!validateEmail(email)) {
+    newErrors.email = 'Invalid email format';
+  }
+  
+  // Validate password
+  if (!password.trim()) {
+    newErrors.password = 'Password is required';
+  } else if (!validatePassword(password)) {
+    newErrors.password = 'Min 8 characters';
+  }
 
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-      return;
-    }
+  if (Object.keys(newErrors).length > 0) {
+    setErrors(newErrors);
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+    return;
+  }
 
-    setIsLoading(true);
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+  setIsLoading(true);
+  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    setIsLoading(false);
-    navigation.navigate('IDGenerationScreen' as never, { email, name } as never);
-  };
-
-  const handleGoogleSignup = () => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    console.log('Google signup');
-  };
+  // TODO: Call Supabase signup here with userId, email, password
+  await new Promise(resolve => setTimeout(resolve, 1500));
+  setIsLoading(false);
+};
 
   return (
     <View style={styles.container}>
@@ -134,43 +149,46 @@ const SignupScreen: React.FC = () => {
                 style={styles.form}
               >
                 {/* UserID Field */}
-                <View style={styles.field}>
-                  <Text style={styles.label}>Your Unique @UserID</Text>
-                  <TextInput
-                    style={styles.input}
-                    value={userId}
-                    onChangeText={(text) => {
-                      setUserId(text);
-                      if (errors.userId) setErrors(prev => ({ ...prev, userId: '' }));
-                    }}
-                    placeholder="Enter your unique UserID"
-                    placeholderTextColor="#6B706E"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                  />
-                  <Text style={styles.helperText}>This is how others will find you</Text>
-                  {errors.userId && (
-                    <AnimatedView entering={FadeIn.duration(200)}>
-                      <Text style={styles.error}>{errors.userId}</Text>
-                    </AnimatedView>
-                  )}
-                </View>
+            <View style={styles.field}>
+  <View style={styles.labelRow}>
+    <Text style={styles.label}>@UserID</Text>
+    <Text style={styles.helperText}>This is how others will find you</Text>
+  </View>
+  <TextInput
+    style={styles.input}
+    value={userId}
+    onChangeText={(text) => {
+      setUserId(text);
+      if (errors.userId) setErrors(prev => ({ ...prev, userId: '' }));
+    }}
+    placeholder="Enter your unique UserID"
+    placeholderTextColor="#6B706E"
+    autoCapitalize="none"
+    autoCorrect={false}
+  />
+  {errors.userId && (
+    <AnimatedView entering={FadeIn.duration(200)}>
+      <Text style={styles.error}>{errors.userId}</Text>
+    </AnimatedView>
+  )}
+</View>
 
-                {/* Display Name Field */}
+                {/* email Field */}
                 <View style={styles.field}>
-                  <Text style={styles.label}>Your Display Name</Text>
+                  <Text style={styles.label}>Email</Text>
                   <TextInput
                     style={styles.input}
-                    value={name}
+                    value={email}
                     onChangeText={(text) => {
-                      setName(text);
-                      if (errors.name) setErrors(prev => ({ ...prev, name: '' }));
+                      setEmail(text);
+                      if (errors.email) setErrors(prev => ({ ...prev, email: '' }));
                     }}
-                    placeholder="Enter your display name"
+                    placeholder="Enter your email address"
                     placeholderTextColor="#6B706E"
-                    autoCapitalize="words"
+                    keyboardType="email-address"
+                    autoCapitalize="none"
                   />
-                  {errors.name && (
+                  {errors.email && (
                     <AnimatedView entering={FadeIn.duration(200)}>
                       <Text style={styles.error}>{errors.name}</Text>
                     </AnimatedView>
@@ -179,7 +197,7 @@ const SignupScreen: React.FC = () => {
 
                 {/* Password Field */}
                 <View style={styles.field}>
-                  <Text style={styles.label}>Create a Secure Password</Text>
+                  <Text style={styles.label}>Password</Text>
                   <View style={styles.passwordContainer}>
                     <TextInput
                       style={styles.passwordInput}
@@ -219,11 +237,7 @@ const SignupScreen: React.FC = () => {
                 <Pressable
                   onPress={handleSignup}
                   disabled={isLoading}
-                  style={({ pressed }) => [
-                    styles.createButton,
-                    pressed && styles.buttonPressed,
-                    isLoading && styles.buttonDisabled,
-                  ]}
+                  style={styles.createButton}
                 >
                   <Text style={styles.createButtonText}>
                     {isLoading ? 'Creating...' : 'Create Account'}
@@ -279,6 +293,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     flex: 1,
     fontSize: 20,
+    fontStyle: 'italic',
     fontWeight: '600',
     color: '#FFFFFF',
     textAlign: 'center',
@@ -323,13 +338,19 @@ const styles = StyleSheet.create({
     gap: 24,
   },
   field: {
-    gap: 8,
+    gap: 6,
   },
   label: {
     fontSize: 16,
+    fontStyle: 'italic',
     fontWeight: '600',
     color: '#FFFFFF',
   },
+  labelRow: {
+  flexDirection: 'row',
+  alignItems: 'center',
+},
+
   input: {
     backgroundColor: '#2C312F', // Dark grey (matching screenshot)
     borderRadius: 12,
@@ -357,10 +378,12 @@ const styles = StyleSheet.create({
     padding: 4,
   },
   helperText: {
-    fontSize: 14,
+    marginTop: 2,
+    paddingHorizontal: 8,
+    fontSize: 12,
+    fontStyle: 'italic',
     color: '#A0A0A0',
     fontWeight: '400',
-    marginTop: 4,
   },
   error: {
     color: '#EF4444',
@@ -368,7 +391,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   createButton: {
-    backgroundColor: '#80E0A0', // Light green (matching screenshot)
+    backgroundColor: '#6609a4ff', // Light green (matching screenshot)
     borderRadius: 12,
     height: 52,
     justifyContent: 'center',
@@ -376,7 +399,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   createButtonText: {
-    color: '#1A201E', // Dark green text
+    color: '#dee7e4ff', // Dark green text
     fontSize: 18,
     fontWeight: '600',
   },

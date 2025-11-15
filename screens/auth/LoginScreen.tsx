@@ -112,7 +112,7 @@ const LoginScreen: React.FC = () => {
               entering={FadeInDown.delay(100).duration(400)}
               style={styles.titleContainer}
             >
-              <Text style={styles.title}>Log in to Soul.</Text>
+              <Text style={styles.title}>Log in to Soul</Text>
             </AnimatedView>
 
             {/* Form */}
@@ -195,11 +195,7 @@ const LoginScreen: React.FC = () => {
               <Pressable
                 onPress={handleLogin}
                 disabled={isLoading}
-                style={({ pressed }) => [
-                  styles.loginButton,
-                  pressed && styles.buttonPressed,
-                  isLoading && styles.buttonDisabled,
-                ]}
+                style={styles.loginButton}
               >
                 <Text style={styles.loginButtonText}>
                   {isLoading ? 'Logging in...' : 'Login'}
@@ -212,12 +208,9 @@ const LoginScreen: React.FC = () => {
                   Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                   navigation.navigate('Main' as never);
                 }}
-                style={({ pressed }) => [
-                  styles.anonymousButton,
-                  pressed && styles.buttonPressed,
-                ]}
+                style={styles.anonymousButton}
               >
-                <Text style={styles.anonymousButtonText}>Continue as Anonymous</Text>
+                <Text style={styles.anonymousButtonText}>Continue as Anonymous user</Text>
               </Pressable>
             </AnimatedView>
           </ScrollView>
@@ -230,7 +223,7 @@ const LoginScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0c0d0dff', // Dark forest green background
+    backgroundColor: '#0c0e0eff', // Dark forest green background
   },
   safeArea: {
     flex: 1,
@@ -260,6 +253,7 @@ const styles = StyleSheet.create({
   logoText: {
     marginTop: 8,
     fontSize: 14,
+    fontStyle: 'italic',
     color: '#FFFFFF',
     fontWeight: '400',
   },
@@ -269,6 +263,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: '700',
+    fontStyle: 'italic',
     color: '#FFFFFF',
     textAlign: 'center',
   },
@@ -280,6 +275,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 16,
+    fontStyle: 'italic',
     fontWeight: '600',
     color: '#FFFFFF',
   },
@@ -290,6 +286,7 @@ const styles = StyleSheet.create({
   },
   forgotLink: {
     fontSize: 14,
+    fontStyle: 'italic',
     fontWeight: '400',
     color: '#A0A0A0',
   },
@@ -316,7 +313,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   loginButton: {
-    backgroundColor: '#70E0A0', // Light green/mint
+    backgroundColor: '#6609a4ff', // Light green/mint
     borderRadius: 12,
     height: 52,
     justifyContent: 'center',
@@ -328,19 +325,16 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
   },
-  anonymousButton: {
-    backgroundColor: '#2D3432', // Dark charcoal grey
-    borderRadius: 12,
-    height: 52,
+  anonymousButton: { // Dark charcoal grey
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#A0A0A0',
   },
   anonymousButtonText: {
-    color: '#FFFFFF',
-    fontSize: 18,
+    color: '#CCCCCC', // Light grey
+    fontSize: 17,
     fontWeight: '400',
+    textAlign: 'center',
+    textDecorationLine: 'underline',
   },
   buttonPressed: {
     opacity: 0.85,

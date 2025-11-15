@@ -32,7 +32,7 @@ const WelcomeScreen: React.FC = () => {
     <View style={styles.container}>
       {/* Subtle gradient overlay in top third */}
       <LinearGradient
-        colors={['rgba(106, 13, 173, 0.1)', 'rgba(26, 32, 30, 1)']}
+        colors={['rgba(106, 13, 173, 0.1)', 'rgba(16, 19, 18, 1)']}
         style={styles.gradientOverlay}
       />
       
@@ -52,26 +52,21 @@ const WelcomeScreen: React.FC = () => {
           style={styles.bottomContainer}
         >
           {/* Sign Up Button - Purple */}
-          <AnimatedPressable
-            onPress={handleSignUp}
-            style={({ pressed }) => [
-              styles.buttonSignUp,
-              pressed && styles.buttonPressed
-            ]}
-          >
-            <Text style={styles.buttonTextPrimary}>Sign Up</Text>
-          </AnimatedPressable>
+<Pressable
+  onPress={handleSignUp}
+  style={styles.buttonSignUp}
+>
+  <Text style={styles.buttonTextPrimary}>Sign Up</Text>
+</Pressable>
 
           {/* Login Button - Dark grey */}
-          <AnimatedPressable
-            onPress={handleLogin}
-            style={({ pressed }) => [
-              styles.buttonLogin,
-              pressed && styles.buttonPressed
-            ]}
-          >
-            <Text style={styles.buttonTextSecondary}>Login</Text>
-          </AnimatedPressable>
+          <Pressable
+  onPress={handleLogin}
+  style={styles.buttonLogin}
+>
+  <Text style={styles.buttonTextSecondary}>Login</Text>
+</Pressable>
+
 
           {/* Anonymous Link */}
           <Pressable 
@@ -96,7 +91,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     top: 0,
-    height: '33%', // Top third of screen
+    height: '100%', // Top third of screen
   },
   safeArea: {
     flex: 1,
@@ -110,12 +105,14 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 48, // Very large
     fontWeight: '700',
+    fontStyle: 'italic',
     color: '#FFFFFF',
     letterSpacing: -0.5,
     textAlign: 'center',
   },
   subtitle: {
     fontSize: 18,
+      fontStyle: 'italic',
     color: '#CCCCCC', // Light grey
     textAlign: 'center',
     fontWeight: '400',
@@ -129,7 +126,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   buttonSignUp: {
-    backgroundColor: '#6A0DAD', // Vibrant deep purple
+    backgroundColor: '#6609a4ff', // Vibrant deep purple
     borderRadius: 14, // 12-16px border radius
     height: 56,
     paddingHorizontal: 20,
@@ -159,7 +156,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.015,
   },
   anonymousButton: {
-    paddingTop: 32, // Larger spacing than between buttons
+    paddingTop: 10, // Larger spacing than between buttons
     paddingBottom: 12,
   },
   buttonAnonymous: {
